@@ -1,5 +1,10 @@
 services:
   app:
     build: .
+    environment:
+      - DOMAIN=example.test
+      - API_KEY=namecheap-api-key
+      - HOSTS=www,test
+      - DELAY_TIME=60000
     env_file:
       - ./.env
