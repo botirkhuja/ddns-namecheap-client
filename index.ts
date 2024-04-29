@@ -25,16 +25,24 @@ const hostsList = HOSTS.split(",");
 
 const localIpAddress = await obtainLocalIp();
 
+let isExiting = false;
+
+process.on("SIGINT", () => {
+  console.log("Ctrl-C was pressed");
+  isExiting = true;
+  process.exit(0);
+});
+
 for (const host of hostsList) {
   await performUpdateForHostOfDomain(host, DOMAIN, API_KEY, localIpAddress)
 }
 
 if (DELAY_TIME === 0) {
   console.log("Finished updating IPs");
-  process.exit(0);
+  isExiting = true;
 }
 
-while (true) {
+while (!isExiting) {
   await new Promise(resolve => setTimeout(resolve, DELAY_TIME));
   console.log("\n------ Updating IPs again ------\n");
   for (const host of hostsList) {
