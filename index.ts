@@ -36,6 +36,7 @@ if (DELAY_TIME === 0) {
 
 while (true) {
   await new Promise(resolve => setTimeout(resolve, DELAY_TIME));
+  console.log("\n------ Updating IPs again ------\n");
   for (const host of hostsList) {
     await performUpdateForHostOfDomain(host, DOMAIN, API_KEY, localIpAddress)
   }
