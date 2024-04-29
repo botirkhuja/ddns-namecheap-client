@@ -17,7 +17,7 @@ if (!HOSTS) {
   throw new Error("HOSTS env var is required");
 }
 
-if (!DELAY_TIME) {
+if (Number.isNaN(DELAY_TIME)) {
   throw new Error("DELAY_TIME env var is required");
 }
 
