@@ -8,8 +8,19 @@ pipeline {
     }
 
     stage('List items') {
-      steps {
-        sh 'ls -la'
+      parallel {
+        stage('List items') {
+          steps {
+            sh 'ls -la'
+          }
+        }
+
+        stage('Build DDNS') {
+          steps {
+            sh 'docker build -t namecheap-ddns .'
+          }
+        }
+
       }
     }
 
