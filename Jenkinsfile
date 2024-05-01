@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('Checkout Code / Git') {
+    stage('Checkout Code') {
       steps {
         git(url: 'https://github.com/botirkhuja/ddns-namecheap-client', branch: 'main')
       }
@@ -23,12 +23,5 @@ pipeline {
 
       }
     }
-
-    stage('Build Image') {
-      steps {
-        sh 'docker build -t ddns .'
-      }
-    }
-
   }
 }
