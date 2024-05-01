@@ -13,5 +13,11 @@ pipeline {
       }
     }
 
+    stage('Build Image') {
+      steps {
+        sh 'docker build -t ddns .'
+      }
+    }
+
   }
 }
