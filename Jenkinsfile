@@ -22,7 +22,7 @@ pipeline {
 
         stage('Build DDNS') {
           steps {
-            sript {
+            script {
               dockerImage = docker.build imagename
             }
           }
