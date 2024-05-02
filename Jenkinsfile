@@ -1,4 +1,9 @@
 pipeline {
+  environment {
+    imagename = "botirkhuja/namecheap-ddns"
+    registryCredential = 'docker-botirkhuja-password'
+    dockerImage = ''
+  }
   agent any
   stages {
     stage('Checkout Code') {
@@ -7,7 +12,7 @@ pipeline {
       }
     }
 
-    stage('List items') {
+    stage('Build') {
       parallel {
         stage('List items') {
           steps {
@@ -17,10 +22,29 @@ pipeline {
 
         stage('Build DDNS') {
           steps {
-            sh 'docker build -t namecheap-ddns .'
+            sript {
+              dockerImage = docker.build imagename
+            }
           }
         }
+      }
+    }
 
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push("$BUILD_NUMBER")
+            dockerImage.push('latest')
+          }
+        }
+      }
+    }
+
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $imagename:$BUILD_NUMBER"
+        sh "docker rmi $imagename:latest"
       }
     }
   }
