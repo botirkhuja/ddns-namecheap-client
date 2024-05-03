@@ -30,12 +30,6 @@ pipeline {
       }
     }
 
-    stage('Echo environment') {
-      steps {
-        echo "${env}"
-      }
-    }
-
     stage('Deploy Image') {
       steps{
         script {
